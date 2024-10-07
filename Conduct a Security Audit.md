@@ -154,7 +154,7 @@ Does Botium Toys currenly adhrere to this compliance best practice?
 
 * GDPR
   
-| Yes/ No / ? | Best Practice                                      |
+| Yes/ No | Best Practice                                      |
 | :---        |    :---:                                         |
 | No | E.U. customers’ data is kept private/secured.                     |
 | Yes | There is a plan in place to notify E.U. customers within 72 hours if their data is compromised                     |
@@ -163,7 +163,7 @@ Does Botium Toys currenly adhrere to this compliance best practice?
 
 * System and Organizations Controls 
 
-| Yes/ No / ? | Best Practice                                       |
+| Yes/ No | Best Practice                                       |
 | :---        |    :---:                                          |
 | No | User access policies are established.              |
 | No | Sensitive data (PII/SPII) is confidential/private. |
