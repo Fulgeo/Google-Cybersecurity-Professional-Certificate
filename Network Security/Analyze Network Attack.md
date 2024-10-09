@@ -16,14 +16,15 @@ You take the server offline temporarily so that the machine can recover and retu
 
 attack log : [Link](https://docs.google.com/document/d/1JYyUPhfm2gwDellGRIcgItA3cZ7kz29xdYpVr1L_o9c/template/preview)
 
-## Identify the Type of Attack That May Have Caused This Network Interruption 
+## Section 1: Identify the Type of Attack That May Have Caused This Network Interruption 
 
 * One potential explanation for the website's connection timeout error message is: DOS attack <br>
 * The logs show that: Web server stops responding after receiving so many SYN packet requests <br>
 * This event could be: Syn flood attack
 
-## Part 2: Explain How the Attack is Causing the Website Malfunction 
-When website visitors try to establish a connection with the web server, a three-way handshake occurs using the TCP protocol. Explain the three steps of the handshake: 
+## Section 2: Explain How the Attack is Causing the Website Malfunction 
+When the website visitors try to establish a connection with the web server, a
+three-way handshake occurs using the TCP protocol. The handshake consists of three steps: 
 
 | Step | Description |
 |---|---|
@@ -31,5 +32,5 @@ When website visitors try to establish a connection with the web server, a three
 | 2 | `SYN/ACK` : Server responds with SYN/ACK packet, acknowledging the client's SYN and requesting confirmation of the connection. |
 | 3 | `ACK` : Client sends ACK packet to the server, acknowledging the server's SYN/ACK. |
 
-* Explain what happens when a malicious actor sends a large number of SYN packets all at once: It slows down the traffic to the point where such request will fail to be executed. It overwhelms the server’s available resources to reserve for the connection. When this happens, there are no server resources left for legitimate TCP connection requests. <br>
-* Explain what the logs indicate and how that affects the server: The server has become ove
+
+In a SYN flood attack, a hacker sends many SYN packets at once, which overwhelms the server’s resources for handling connections. As a result, the server runs out of resources to manage legitimate TCP connection requests. The logs show that the web server is overloaded and cannot process the SYN requests from visitors. Because of this, the server cannot open new connections, and new visitors receive a connection timeout message.
