@@ -1,94 +1,69 @@
-# Tcpdump - Capture your first packet 
+# Wireshark - Analyze Your First Packet 
 
-## Scenario 
-You’re a network analyst who needs to use tcpdump to capture and analyze live network traffic from a Linux virtual machine.
+## Scenario
 
-The lab starts with your user account, called analyst, already logged in to a Linux terminal.
+In this scenario, you’re a security analyst investigating traffic to a website.
 
-Your Linux user's home directory contains a sample packet capture file that you will use at the end of the lab to answer a few questions about the network traffic that it contains.
+You’ll analyze a network packet capture file that contains traffic data related to a user connecting to an internet site. The ability to filter network traffic using packet sniffers to gather relevant information is an essential skill as a security analyst.
 
-Here’s how you’ll do this: First, you’ll identify network interfaces to capture network packet data. Second, you’ll use tcpdump to filter live network traffic. Third, you’ll capture network traffic using tcpdump. Finally, you’ll filter the captured packet data.
+You must filter the data in order to:
+1. Identify the source and destination IP addresses involved in this web browsing session.
+2. Examine the protocols that are used when the user makes the connection to the website.
+3. Analyze the data packet to identify the type of information sent and received by the systems that connect to each other when the network data is captured.
 
+An overview of the key property columns listed for each packet: 
+* `No` : The index number of the packet in this packet capture file.
+* `Time`: The timestamp of the packet.
+* `Source`: The source IP address.
+* `Destination`: The destination IP address.
+* `Protocol`: The protocol contained in the packet.
+* `Length`: The total length of the packet.
+* `Info`: Some infomation about the data in the packet (the payload) as interpreted by Wireshark.
 
-## Solutions
-1. Identify Network Interfaces.
-   
-* Use `ifconfig` to identify the interfaces that are available:
+## Solutions 
+1. Identify the source and destination IP addresses involved in this web browsing session.
+* On the title bar, type `ip.addr == 142.250.1.139` to filter for traffic associated with a specific IP address. Select the first packet that contains `TCP` on the info field. `addr` means either the source or the destination IP. 
+
+![chrome_clrxVrSKGe](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/1.png)
+
+![chrome_poRy9LUK7I](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/2.png)
+
+* On the title bar, type `ip.src == 142.250.1.139` to filter for traffic associated with a specific IP address. `src` means it is where the packet comes from.
   
-![chrome_71aeK1ZgJE](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/1.png)
+![chrome_rKsf4FgKQK](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/3.png)
 
-* Identify the interface options available for packet capture:
-
-![chrome_OslduuRBmA](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/2.png)
-
-
-2. Inspect the network traffic of a network interface with tcpdump.
-
-* Use `sudo tcpdump -i eth0 -v -c5` to filter live network packet data:
   
-![chrome_xk2afcYBtV](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/3.png)
+* On the title bar, type `ip.dst == 142.250.1.139` to filter for traffic associated with a specific IP address. `dst` means it is where the packet goes to.
+  
+![chrome_0BcQ5U6PID](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/4.png)
 
-> `-i eth0`: Capture data specifically drom the `eth0` interface.
+* On the title bar, type `eth.addr == 42:01:ac:15:e0:02` to filter for traffic associated with a specific Ethernet MAC address. `addr` means either the source or the destination IP. 
 
-> `-v`: Display detailed packet data.
+![chrome_FNyXuNAoQH](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/5.png)
 
-> `-c5`: Capture 5 packets of data.
+2. Examine the protocols that are used when the user makes the connection to the website.
+* The TCP destination port of this TCP packet is 80 when `ip.addr == 142.250.1.139` which contains the initial web request to an HTPP website that will typically be listening on TCP port 80.
 
-3. Capture network traffic:
+![chrome_v0w4jPKpnG](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/6.png)
 
-* Capture packet data into a file named called `capture.pcap`:  `sudo tcpdump -i eth0 -nn -c9 port 80 -w capture.pcap &`.
+* The protocol destination port is TCP when Etherenet address was `42:01:ac:15:e0:02`. Source address is `172.21.224.2` and the destination address is `35.235.244.34`. 
 
-> `-i eth0`: Capture data from the eth0 interface.
+![chrome_PAHlQSZJOk](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/7.png)
 
-> `-nn`: Do not attempt to resolve IP addresses or ports to names.This is best practice from a security perspective, as the lookup data may not be valid. It also prevents malicious actors from being alerted to an investigation.
+3. Analyze the data packet to identify the type of information sent and received by the systems that connect to each other when the network data is captured.
+* On the title bar, type `tcp.port == 80` to filter for traffic associated with a specific port number. `tcp.port == 80` means only the tcp port is 80 will be shown. 
+  
+![chrome_MNHnvAhm6o](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/8.png)
 
-> `-c9`: Capture 9 packets of data and then exit.
-
-> `port 80`: Filter only port 80 traffic. This is the default HTTP port.
-
-> `-w capture.pcap`: Save the captured data to the named file.
-
-> `&`: This is an instruction to the Bash shell to run the command in the background.
-
-![chrome_czTEkhJt5O](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/4.png)
-
-* Use `curl` to generate some HTTP (port 80) traffic: `curl opensource.google.com`.
-> Open a website and generate some HTTP (TCP Port 80) traffic that can be captured.   
+* When the filter `tcp.port == 80` sets in play, the time to live is 64.
+* `Time to Live`: A field in the Internet Protocol (IP) header that indicates the maximum amount of time an IP packet is allowed to exist in the network before it is discarded if it has not reached its destination. TTL is used to prevent packets from circulating indefinitely in the network, which could happen in the case of routing loops. It can be used as a basic security measure to limit how far packets can propagate through the network.
+  
+![chrome_iI9QT2BqWs](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/9.png)
 
 
-![chrome_hxKylypKNY](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/5.png)
+* When the filter `tcp.port == 80` sets in play, the Frame Number is 37 and Frame Length is 54 bytes.
+* `Frame Number`: This is essentially the sequence number of a packet within a particular capture. It helps you identify and refer to packets more easily. In your case, a frame number of 37 means it's the 37th packet captured since the beginning of the capture session. This number is assigned sequentially as packets are captured, starting with the number 1 for the first packet.
 
-* Verify the packet data has been captured: `ls -l capture.pcap`.
+* `Frame Length`: This indicates the size of the packet, including all headers and payload, measured in bytes. The frame length of 54 bytes means the total size of the packet is 54 bytes. This size includes everything from the lowest layer (physical layer) up to the highest layer present in the packet that Wireshark can decode. It's useful for understanding the size of the data being transmitted and can help in various analyses, such as identifying potential issues with packet sizes that might indicate fragmentation or other problems.
 
-![chrome_HhfPeeYOiq](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/6.png)
-
-4. Filter the captured packet data.
-* Filter the packet header data from the `capture.pcap` capture file: `sudo tcpdump -nn -r capture.pcap -v`.
-
-![chrome_RUJXqYZJYp](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/7.png)
-
-
-![chrome_bzcD3CgViN](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/8.png)
-
-> `-nn`: Disable port and protocol name lookup.
-
-> `-r`: Read capture data from the named file.
-
-> `-v`: Display detailed packet data. 
-
-* Filter the extended packet data from the `capture.pcap` capture file: `sudo tcpdump -nn -r capture.pcap -X`.
-
-![chrome_30Kqm2ODsu](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/9.png)
-
-![chrome_fPM4JsnaBf](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/10.png)
-
-
-![chrome_XCBa8KnbDi](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/11.png)
-
-> `-nn`: Disable port and protocol name lookup.
-
-> `-r`: Read capure data from the named file.
-
-> `-X`: Display the hexadecimal and ASCII output format packet data. Security analysts can analyze hexadecimal and ASCII output to detect patterns or anomalies during malware analysis or forensic analysis.
-
-> Note: Hexadecimal, also known as hex or base 16, uses 16 symbols to represent values, including the digits 0-9 and letters A, B, C, D, E, and F. American Standard Code for Information Interchange (ASCII) is a character encoding standard that uses a set of characters to represent text in digital form.
+![chrome_xSk2HRghJg](https://github.com/Fulgeo/Google-Cybersecurity-Professional-Certificate/blob/main/Image/wireshark%20and%20tcp%20dump%20image/wireshark/10.png)
