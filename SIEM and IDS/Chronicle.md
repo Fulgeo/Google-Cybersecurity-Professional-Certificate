@@ -12,7 +12,7 @@ There are two types: Unified Data Mode or Raw Log Search.
 
 ## Scenario 
 
-You are a security analyst at a financial services company. You receive an alert that an employee received a phishing email in their inbox. You review the alert and identify a suspicious domain name contained in the email's body: `signin.office365x24.com`. You need to determine whether any other employees have received phishing emails containing this domain and whether they have visited the domain. You will use [Chronicle](https://demo.backstory.chronicle.security/?warstory=) to investigate this domain.
+You are a security analyst at a financial services company. You receive an alert that an employee received a phishing email in their inbox. You review the alert and identify a suspicious domain name contained in the email's body: `signin.office365x24.com`. You need to determine whether any other employees have received phishing emails containing this domain and whether they have visited the domain. You will use Chronicle to investigate this domain.
 
 ## Expectation 
 * Access threat intelligence reports on the domain
